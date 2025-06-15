@@ -92,6 +92,14 @@ code {
   }
 }
 
+code, pre {
+  font-family: v.$font-family-monospace;
+}
+
+.highlight pre {
+  font-family: v.$font-family-monospace;
+}
+
 td.rouge-code {
   @extend %code-snippet-padding;
 
