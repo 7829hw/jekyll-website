@@ -1,4 +1,3 @@
-# .github/workflows/jekyll.yml
 name: Build and Deploy Jekyll
 
 on:
@@ -24,46 +23,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Debug file structure
-        run: |
-          echo "=== Project structure ==="
-          ls -la
-          echo "=== Sass structure ==="
-          ls -la _sass/ || echo "No _sass directory"
-          echo "=== Node modules ==="
-          ls -la node_modules/ || echo "No node_modules"
-          echo "=== Package.json ==="
-          cat package.json || echo "No package.json"
-
       - name: Install Node.js dependencies
-        run: npm ci || npm install
+        run: npm install
+
+      - name: Build frontend assets
+        run: npm run build
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-
-      - name: Initialize Chirpy theme (if needed)
-        run: |
-          if [ -f "tools/init.sh" ]; then
-            bash tools/init.sh
-          fi
-
-      - name: Build assets
-        run: |
-          if [ -f "package.json" ]; then
-            npm run build || echo "No build script found"
-          fi
 
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
