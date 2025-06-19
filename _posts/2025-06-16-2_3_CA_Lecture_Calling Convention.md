@@ -2,7 +2,7 @@
 title: 2_3_CA_Lecture_Calling Convention
 author: khw
 date: 2025-06-16
-categories: [Exam, ComputerOrganization]
+categories: [Exam, ComputerArchitecture]
 tags: [2025_first_semester_final_exam]
 pin: true
 math: true

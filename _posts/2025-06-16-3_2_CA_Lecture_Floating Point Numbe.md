@@ -2,7 +2,7 @@
 title: 3_2_CA_Lecture_Floating Point Numbe.md
 author: khw
 date: 2025-06-16
-categories: [Exam, ComputerOrganization]
+categories: [Exam, ComputerArchitecture]
 tags: [2025_first_semester_final_exam]
 pin: true
 math: true

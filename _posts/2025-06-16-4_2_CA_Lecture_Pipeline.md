@@ -2,7 +2,7 @@
 title: 4_2_CA_Lecture_Pipeline
 author: khw
 date: 2025-06-16
-categories: [Exam, ComputerOrganization]
+categories: [Exam, ComputerArchitecture]
 tags: [2025_first_semester_final_exam]
 pin: true
 math: true
