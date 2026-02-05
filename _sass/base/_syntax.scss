@@ -23,6 +23,7 @@
   pre {
     margin-bottom: 0;
     font-size: v.$code-font-size;
+    font-family: v.$font-family-monospace;
     line-height: 1.4rem;
   }
 
@@ -64,6 +65,7 @@ code {
 
   &.highlighter-rouge {
     font-size: v.$code-font-size;
+    font-family: v.$font-family-monospace;
     padding: 3px 5px;
     overflow-wrap: break-word;
     border-radius: v.$radius-sm;
