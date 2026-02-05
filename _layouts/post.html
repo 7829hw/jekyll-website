@@ -1,6 +1,5 @@
 ---
 layout: default
-refactor: true
 panel_includes:
   - toc
 tail_includes:
@@ -159,7 +158,6 @@ script_includes:
         d-flex justify-content-between align-items-center mt-5 pb-2
       "
     >
-    <!-- 라이선스 부분 제거
       <div class="license-wrapper">
         {% if site.data.locales[lang].copyright.license.template %}
           {% capture _replacement %}
@@ -171,7 +169,6 @@ script_includes:
           {{ site.data.locales[lang].copyright.license.template | replace: ':LICENSE_NAME', _replacement }}
         {% endif %}
       </div>
-      -->
 
       {% include post-sharing.html lang=lang %}
     </div>
