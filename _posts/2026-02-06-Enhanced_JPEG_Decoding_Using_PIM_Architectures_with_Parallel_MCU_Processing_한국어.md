@@ -1,3 +1,14 @@
+---
+title: 병렬 MCU 처리를 통한 PIM 아키텍처 기반의 향상된 JPEG 디코딩
+author: khw
+date: 2026-02-06
+categories: [Study, PIM]
+tags: [LAB]
+pin: true
+math: true
+mermaid: true
+---
+
 ## 병렬 MCU 처리를 통한 PIM 아키텍처 기반의 향상된 JPEG 디코딩
 
 김지은, 경북대학교 컴퓨터학부, 대구, 대한민국, kimjea1999@knu.ac.kr
