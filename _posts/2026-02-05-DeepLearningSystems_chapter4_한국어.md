@@ -27,7 +27,7 @@ mermaid: true
 
 그림 4.1: (a) 네 개의 훈련 샘플(파란색 점)과 하나의 검증 샘플(녹색 점). (b) 4차 다항식 함수는 훈련 오차가 0이지만 검증 오차가 높습니다. (c) 더 단순한 1차 다항식 함수는 낮은 검증 오차를 가집니다. 빨간색 점은 모델의 예측을 나타냅니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000000_fe6bbdaf1a1596f5dbe6da23071e4628909de5ae856380b8c40cdc7458ac0419.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000000_fe6bbdaf1a1596f5dbe6da23071e4628909de5ae856380b8c40cdc7458ac0419.png)
 
 **과소적합(Underfitting)**은 모델이 너무 적은 학습 능력을 가지고 있어 데이터의 일반적인 특성을 제대로 학습할 수 없을 때 발생합니다. 과소적합의 증상은 높은 훈련 오차와 높은 테스트 오차입니다. 과소적합을 완화하는 가장 좋은 기술은 더 복잡한 모델을 사용하는 것입니다. 딥러닝(DL)에서는 더 많은 레이어와 더 많은 가중치를 추가하여 토폴로지의 표현 용량을 늘리는 것을 의미합니다.
 
@@ -37,7 +37,7 @@ mermaid: true
 
 그림 4.2: 모델 복잡성의 이상적인 수준은 검증 오차가 가장 낮은 지점입니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000001_6937f1eb7a38d69245e490459f4b68c863e26fe8f85ed5fe33ce4d6a6d9f9ac4.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000001_6937f1eb7a38d69245e490459f4b68c863e26fe8f85ed5fe33ce4d6a6d9f9ac4.png)
 
 증가합니다. 점선의 왼쪽 복잡성을 가진 모델은 과소적합이고, 점선의 오른쪽 복잡성을 가진 모델은 과적합입니다. 최적의 지점(sweet spot)은 바로 점선에 위치하며, 여기서 모델은 가장 낮은 검증 오차를 가집니다. 모델은 과소적합을 피할 만큼 충분히 복잡하지만 과적합을 피할 만큼 단순해야 합니다.
 
@@ -47,13 +47,13 @@ mermaid: true
 
 일반화 성능 저하의 또 다른 원인은 **날카로운 최솟값(sharp minima)**일 수 있습니다 [HS97]. 이 가설은 경험적 증거에 기초합니다. 그림 4.4는 하나의 가중치 또는 특징(x축)만을 사용한 1D 장난감 예제로 직관을 설명합니다. 훈련에는 모델을 반복적으로 업데이트하고 훈련 오차가 더 낮은 솔루션 공간 영역으로 이동하는 과정이 포함됩니다. 훈련 비용 함수(파란색 실선)는 테스트 비용 함수(녹색 점선)와 유사하지만 약간 다릅니다. 이 차이는 테스트 샘플이 훈련 샘플과 유사하지만 동일하지 않기 때문입니다. 이 예에서 평평한 최솟값(flat minimum) 솔루션과 날카로운 최솟값 솔루션은 동일한 훈련 오차를 가지지만,
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000002_a9e8c23a739ed0d5812b99a719a7a614eef0c6a98e0b7766f031b37782287187.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000002_a9e8c23a739ed0d5812b99a719a7a614eef0c6a98e0b7766f031b37782287187.png)
 
 그림 4.3: 일부 DL 토폴로지에서 관찰되는 이중 하강(deep double descent)의 예시; 복잡성이 증가함에 따라 검증 오차는 예상대로 감소했다가 증가하지만, 그 후 다시 감소하기 시작합니다. [NKB+20]에 기초함.
 
 그림 4.4: 이 장난감 예제에서 테스트 데이터셋에 대한 비용 함수는 훈련 데이터셋에 대한 비용 함수에서 약간 이동되어 있습니다. 날카로운 최솟값 솔루션은 높은 테스트 오차를 가집니다. 평평한 최솟값은 작은 테스트 오차를 가집니다. [KMN+17]에 기초함.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000003_f5b024730697e47805ea7e6120d0fe8e1e296a22442db4626b1226832a893712.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000003_f5b024730697e47805ea7e6120d0fe8e1e296a22442db4626b1226832a893712.png)
 
 다른 테스트 오차를 가집니다. 이러한 오차는 y축을 따라 $J(w)$로 표시됩니다. 평평한 최솟값 솔루션은 낮은 테스트 오차를 가지며, 날카로운 최솟값 솔루션은 높은 테스트 오차(녹색 점)를 가집니다. 평평함의 척도는 헤시안(Hessian)의 트레이스(trace)이며, 작은 트레이스는 평평한 최솟값을 나타냅니다 [DYC+19].
 
@@ -132,7 +132,7 @@ GD와 대규모 배치 SGD에는 두 가지 주요 과제가 있습니다. 첫�
 
 그림 4.5: 너무 크거나(빨간색 화살표) 너무 작은 LR, 그리고 적절한(녹색 화살표) LR을 사용한 경사 하강법 업데이트.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000004_e7c90c48e435116ba2a943cc7706f7ac1212caa4e3e870d7181c68a4f3310081.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000004_e7c90c48e435116ba2a943cc7706f7ac1212caa4e3e870d7181c68a4f3310081.png)
 
 헤시안(1D에서는 2차 도함수)은 목적 함수의 곡률을 다양한 차원에 따라 분석하여 솔루션이 평평한 최솟값인지 날카로운 최솟값인지 확인하는 데 사용할 수 있습니다. 절대 고유값이 작을수록 해당 차원의 곡률이 더 평평함을 나타내며, 평균 헤시안 트레이스는 모든 차원의 평균 곡률에 대한 메트릭을 제공합니다. 트레이스 값이 높을수록 날카로운 최솟값을 나타냅니다 [DYC+19].
 
@@ -146,7 +146,7 @@ Shallue 등은 여러 모델과 데이터셋에 걸쳐 경험적으로 주어진
 
 그림 4.6: 데이터셋이 M개의 배치로 나뉘고, 가중치 벡터(이 장난감 예제에서는 2차원)는 배치와 관련된 비용에 대해 계산된 그래디언트를 사용하여 업데이트됩니다. 최솟값(내부 타원)을 향한 진행은 매끄럽지는 않지만(GD와 달리) GD보다 빠릅니다. 1 GD 단계마다 SGD는 M 단계를 수행합니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000005_157f300c94655d09849fbb857b7735919a2321ea777dacec299c48c82ae5add0.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000005_157f300c94655d09849fbb857b7735919a2321ea777dacec299c48c82ae5add0.png)
 
 표 4.1: 그림 4.7에서 관찰된 세 가지 모델에 대한 배치 크기 확장 영역
 
@@ -235,19 +235,19 @@ $$\frac{\partial J(w)}{\partial w_{ji}^{(l)}}$$
 
 그림 4.7: 그림 4.7의 세 가지 모델에 대해 예상되는 훈련 및 검증 오차를 충족하는 데 필요한 훈련 단계 수(배치 크기 함수로서). 점선은 완벽한 확장을 나타냄. 표 4.1에서 요약 내용 참조. 출처: [SLA+19] (CC BY-SA 4.0).
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000006_bc94571011cb4920397e39a39fcb5ad52bb0c373b851e663b28449fd67464b16.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000006_bc94571011cb4920397e39a39fcb5ad52bb0c373b851e663b28449fd67464b16.png)
 
 그림 4.8: 협곡이 있는 2D 공간의 장난감 예제. (a) SGD는 느리게 진행됩니다. (b) SGDM은 최솟값을 향해 더 빠르게 진행됩니다. [Orr99]에 기초함.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000007_41311c7e65cc9c5fac5014622498fbff4b46239ae2c2aab02e1c6cdc3a405e76.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000007_41311c7e65cc9c5fac5014622498fbff4b46239ae2c2aab02e1c6cdc3a405e76.png)
 
 그림 4.9: 최적화 알고리즘의 계보.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000008_1712f1c370e7c56c80f36ee2bb08541fd7948569f92dae618ea02b98b59c265f.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000008_1712f1c370e7c56c80f36ee2bb08541fd7948569f92dae618ea02b98b59c265f.png)
 
 그림 4.10: 연쇄 법칙(chain rule)을 사용하여 모델의 가중치에 대한 비용의 편미분을 계산합니다. 간단하게 하기 위해 편향은 그림에서 생략되었습니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000009_f938906172bbe8404baaab063bf43a259a134a0cabd759445ff7ca43e5eedf5f.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000009_f938906172bbe8404baaab063bf43a259a134a0cabd759445ff7ca43e5eedf5f.png)
 
 ## 4.5 훈련 기술
 
@@ -358,7 +358,7 @@ $$\eta_t = \eta_0 (1 - t/T)^p$$
 
 그림 4.11: 언제 무엇을 미세 조정해야 하는지에 대한 상위 수준 지침. 새 작업의 데이터셋이 원래 데이터셋과 유사할 때는 마지막 상위 레이어만 재훈련해야 합니다. 데이터셋이 다르면 더 많은 레이어를 훈련해야 합니다. 새 작업의 데이터셋이 충분히 크면 전체 모델을 재훈련하는 것이 가장 좋습니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000010_6fae5f2f8b75ca90711b8ec6bf721c631b04ca0b47f6257dedf904613b284b2e.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000010_6fae5f2f8b75ca90711b8ec6bf721c631b04ca0b47f6257dedf904613b284b2e.png)
 
 | 대규모 데이터셋     |                                                          | 상위 레이어 훈련   | 유사함   |
 |-------------------|----------------------------------------------------------|----------------------|-----------|
@@ -391,4 +391,4 @@ $$\eta_t = \eta_0 (1 - t/T)^p$$
 
 그림 4.12: 원래 ImageNet1K 데이터셋으로 훈련된 개 vs 고양이 분류 작업을 위해 VGG-16 모델을 미세 조정합니다.
 
-![Image](2026-02-05-DeepLearningSystems_chapter4_한국어/image_000011_82a48e0a17ff2b5a566a0f932dfa37e1c503680893f711a68ea1f4af8c3fd556.png)
+![Image](/assets/img/posts/2026-02-05-DeepLearningSystems_chapter4_한국어/image_000011_82a48e0a17ff2b5a566a0f932dfa37e1c503680893f711a68ea1f4af8c3fd556.png)
