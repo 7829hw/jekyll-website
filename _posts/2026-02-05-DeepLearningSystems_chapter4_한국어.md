@@ -65,7 +65,7 @@ mermaid: true
 
 **가중치 감쇠(Weight decay)** (L2 정규화라고도 함)는 가중치의 크기에 페널티를 주어 과적합을 줄입니다. 위의 4차 다항식 예제에서 이는 계수의 크기에 페널티를 주어 더 아핀(affine) 같은 함수를 초래합니다. 목적 함수는 페널티 항을 추가하여 가중치 감쇠를 통합합니다.
 
-$$J(w) = J_{data}(w) + \lambda ||w||^2$$
+$$\text{new cost} = \text{cost} + \lambda \lVert w \rVert^2_2$$
 
 여기서 $\lambda \ge 0$은 정규화 계수이고 $w$는 모델 가중치(위의 회귀 예제에서 다항식 계수)입니다. 편향(bias) 가중치는 활성화와 곱셈 상호작용을 하지 않으므로 정규화되지 않습니다. 위에서 보여진 L2 정규화가 아닌 L1 정규화는 덜 일반적입니다.
 
@@ -93,7 +93,7 @@ $$J(w) = J_{data}(w) + \lambda ||w||^2$$
 
 시그모이드 또는 하이퍼볼릭 탄젠트 레이어의 경우 **Xavier 초기화**가 선호됩니다 [GB10]. 레이어 $l$의 가중치는 균등 분포 $U[-k, k]$에서 샘플링됩니다.
 
-$$k = \sqrt{\frac{6}{D_{in} + D_{out}}}$$
+$$k = \sqrt{\frac{6}{D^{(l)} + D^{(l+1)}}}$$
 
 이러한 초기화 기술은 기본 NN을 위한 가중치를 생성하는 메타-NN인 하이퍼네트워크를 훈련하도록 조정될 수 있습니다 [CFL20].
 
@@ -118,9 +118,11 @@ $$k = \sqrt{\frac{6}{D_{in} + D_{out}}}$$
 
 **경사 하강법(Gradient Descent, GD)** 또는 최급 하강법(steepest descent)에서는 데이터셋의 모든 데이터 샘플을 사용하여 목적 함수를 계산합니다. 가중치는 그래디언트의 반대 방향, 즉 국소 최솟값을 향해 이동하여 업데이트됩니다. 목적 함수 $J(w)$는 $N$개의 샘플이 있는 데이터셋 전체의 손실 합을 사용하여 계산됩니다. 가중치 세트는 다음과 같이 업데이트됩니다:
 
-$$w_{t+1} = w_t - \eta \nabla J(w_t)$$
-
-$$\nabla J(w_t) = \frac{1}{N} \sum_{i=1}^N \nabla Loss(x_i, y_i, w_t)$$
+$$\begin{align*}
+J(\mathbf{w}) &= \sum_{n=0}^{N-1} loss\left(f_{\mathbf{w}}\left(\mathbf{x}^{[n]}\right), \mathbf{y}^{[n]}\right) \\
+\mathbf{g} &= \frac{dJ(\mathbf{w})}{d\mathbf{w}} = \nabla_{\mathbf{w}} J(\mathbf{w}) \\
+\mathbf{w} &:= \mathbf{w} - \alpha \cdot \mathbf{g}
+\end{align*}$$
 
 여기서 $w$는 모델의 모든 가중치를 나타내고 $\eta$는 학습률(LR)입니다. 실제로는 가중치 감쇠 항(4.1절 참조)이 사용되지만, 표기를 단순화하기 위해 이 섹션의 모든 식에서 제외되었습니다.
 
@@ -162,18 +164,25 @@ Shallue 등은 여러 모델과 데이터셋에 걸쳐 경험적으로 주어진
 
 SGDM은 **1차 모멘트(first moment)** 또는 그냥 **모멘트(moment)**라고도 하는 과거 그래디언트의 지수 붕괴 평균 방향으로 SGD를 가속화하고 진동을 완화합니다. 가중치를 직접 수정하는 대신 그래디언트는 이 모멘트를 수정하고 모멘트가 다음과 같이 가중치를 업데이트하는 데 사용됩니다.
 
-$$m_t = \mu m_{t-1} + g_t$$
-$$w_t = w_{t-1} - \eta m_t$$
+$$\begin{align*}
+\mathbf{g} &= \nabla_{\mathbf{w}} J(\mathbf{w}) \\
+\mathbf{m} &:= \beta \cdot \mathbf{m} + (1 - \beta) \cdot \mathbf{g} \\
+\mathbf{w} &:= \mathbf{w} - \alpha \cdot \mathbf{m}
+\end{align*}$$
 
 여기서 $m$은 평균 그래디언트 또는 1차 모멘트이며 모멘텀 항 $\mu$(일반적으로 $\mu = 0.9$로 설정)에 의해 붕괴됩니다. $m$은 $m=0$으로 초기화되며 $\eta$는 조정이 필요한 LR입니다. SGDM은 업계, 특히 컴퓨터 비전 모델에서 널리 채택되었으며 학습률이 적절하게 조정되면 여러 작업에서 잘 작동합니다.
 
 **Adaptive Moment Estimation (Adam)**은 모멘텀보다 다양한 LR에 더 강건하므로 LR 조정이 덜 필요합니다 [KB17]. Adam은 각 파라미터에 대해 적응형 LR을 계산합니다. 구체적으로, Adam은 **2차 모멘트(second moment)** 또는 **분산(variance)**이라고 하는 평균 그래디언트 제곱으로 정규화된 평균 그래디언트(SGDM과 같이)를 사용합니다. 따라서 모든 가중치는 다음과 같이 다른 LR로 업데이트됩니다.
 
-$$m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t$$
-$$v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2$$
-$$\hat{m}_t = m_t / (1 - \beta_1^t)$$
-$$\hat{v}_t = v_t / (1 - \beta_2^t)$$
-$$w_t = w_{t-1} - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
+$$\begin{align*}
+\mathbf{g} = \nabla_{\mathbf{w}} J(\mathbf{w})\\
+\mathbf{m} := \beta_1 \cdot \mathbf{m} + (1 - \beta_1) \cdot \mathbf{g}\\
+\mathbf{v} := \beta_2 \cdot \mathbf{v} + (1 - \beta_2) \cdot \mathbf{g}^2\\
+\hat{\mathbf{m}} = \mathbf{m}/(1 - \beta_1^t)\\
+\hat{\mathbf{v}} = \mathbf{v}/(1 - \beta_2^t)\\
+\mathbf{r} = \hat{\mathbf{m}}/(\sqrt{\hat{\mathbf{v}}} + \epsilon)\\
+\mathbf{w} := \mathbf{w} - \alpha \cdot \mathbf{r}\\
+\end{align*}$$
 
 여기서 $m$과 $v$는 1차 및 2차 모멘트 추정치이고, $\hat{m}$과 $\hat{v}$는 각각 편향 보정된 1차 및 2차 모멘트 추정치입니다. $g^2$은 $g$의 요소별 제곱이고, 벡터 나눗셈은 요소별 나눗셈입니다. $m$과 $v$는 모두 0으로 초기화됩니다. $\beta_1 \in [0, 1)$, $\beta_2 \in [0, 1)$, $\epsilon > 0$은 일반적으로 $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 0.001$로 설정됩니다. 지수 항 $t$는 훈련 반복이며 $\eta$는 약간의 조정이 필요한 LR입니다.
 
@@ -189,13 +198,19 @@ Adam은 업계, 특히 NLP 모델에서 널리 채택되었으며 더 간단한 
 
 **Layer-wise Adaptive Rate Scaling (LARS)**은 가중치의 크기와 그래디언트의 크기 비율에 비례하는 국소 LR $\eta^{(l)}$ 을 사용합니다 [YGG17]. LARS는 다음과 같이 SGD에 적용됩니다.
 
-$$\eta^{(l)} = \eta_0 \times \frac{||w^{(l)}||}{||g^{(l)}|| + \lambda ||w^{(l)}||}$$
+$$\begin{align*}
+\alpha^{(l)} &= \frac{\|\mathbf{w}^{(l)}\|}{\|\mathbf{g}^{(l)}\|} \\
+\mathbf{w}^{(l)} &:= \mathbf{w}^{(l)} - \alpha_0 \cdot \alpha^{(l)} \cdot \mathbf{g}^{(l)}
+\end{align*}$$
 
 여기서 $\eta_0$는 글로벌 LR입니다.
 
 LARS는 SGDM 또는 **LAMB**라고 알려진 Adam과 함께 사용할 수 있습니다 [YLR+20]. LAMB는 Google에서 거의 하이퍼파라미터 조정 없이 배치 크기 32K로 BERT와 ResNet-50을 훈련하는 데 성공적으로 사용되었습니다. LAMB에서 Adam 방정식은 다음과 같이 수정됩니다.
 
-$$w_t^{(l)} = w_{t-1}^{(l)} - \eta_t \frac{\phi(||w_{t-1}^{(l)}||)}{||r_t^{(l)}|| + \lambda ||w_{t-1}^{(l)}||} (m_t^{(l)} / \sqrt{v_t^{(l)}})$$
+$$\begin{align*}
+\alpha^{(l)} &= \frac{\|\mathbf{w}^{(l)}\|}{\|\mathbf{r}^{(l)}\|} \\
+\mathbf{w}^{(l)} &:= \mathbf{w}^{(l)} - \alpha_0 \cdot \alpha^{(l)} \cdot \mathbf{r}^{(l)}
+\end{align*}$$
 
 다른 영향력 있는 최적화기로는 AdaGrad(특히 희소 데이터용), RMSProp, AdaDelta, Nadam, Nesterov 가속 그래디언트(NAG), AdamW, AMSGrad, NovoGrad가 있습니다 [DHS11, HSS12, Zei12, Doz16, BLB17, LH19, RKK19, GCH+20]. 그림 4.9는 최적화기의 추정 계보를 보여줍니다. 이들은 1차(first-order) 최적화기입니다. **AdaHessian**은 다른 2차 최적화기의 엄청난 계산 비용 없이 1차 최적화기보다 더 나은 최솟값으로 수렴하는 2차(second-order) 최적화기입니다 [YGS+20]. 유망한 결과를 감안할 때 AdaHessian 채택이 증가할 수 있습니다.
 
@@ -217,11 +232,11 @@ $$w_{SWA} = \frac{w_{SWA} \cdot n_{cycle} + w}{n_{cycle} + 1}$$
 
 로그 비용(log-cost) 또는 로지스틱 비용(logistic cost)이라고도 하는 교차 엔트로피(cross-entropy) 비용 함수는 다음과 같습니다.
 
-$$J(w) = - \sum_{n=1}^N \sum_{k=1}^K y_k^{(n)} \log(\hat{y}_k^{(n)})$$
+$$J(\mathbf{w}) = -\sum_{n=0}^{N-1} \sum_{k=0}^{K-1} y_k^{[n]} \log \left( \hat{y}_k^{[n]} \right)$$
 
 여기서 $N$은 훈련 배치의 샘플 수이고, $y_k^{(n)} \in \{0, 1\}$은 샘플 $n$이 클래스 $k$에 속하면 1이고 그렇지 않으면 0입니다. $\hat{y}_k^{(n)}$은 샘플 $n$이 클래스 $k$에 속할 것이라는 모델의 예측(확률로서)입니다. 직관적으로 모델이 올바른 클래스에 대해 낮은 확률을 예측하면 해당 샘플에 대한 비용이 높고 그 반대의 경우도 마찬가지입니다. $y_k^{(n)}=1$일 때 $\hat{y}_k^{(n)}$이 0에 가까워지면 손실은 무한대에 가까워집니다. 실제로는 비용 함수에 가중치 감쇠 페널티가 포함됩니다(여기서는 표기를 단순화하기 위해 종종 생략됨).
 
-$$J(w) = -\sum_{n} \sum_{k} y_k^{(n)} \log(\hat{y}_k^{(n)}) + \lambda ||w||^2$$
+$$J(\mathbf{w}) = -\left(\sum_{n=0}^{N-1} \sum_{k=0}^{K-1} y_k^{[n]} \log\left(\hat{y}_k^{[n]}\right)\right) + \left(\frac{\lambda}{2} \sum_{l=0}^{L-2} \sum_{j=1}^{D^{(l+1)}} \sum_{i=1}^{D^{(l)}} \left(w_{ji}^{(l)}\right)^2\right)$$
 
 여기서 $\lambda \ge 0$은 정규화 계수입니다.
 
