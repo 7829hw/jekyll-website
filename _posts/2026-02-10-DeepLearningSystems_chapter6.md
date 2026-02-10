@@ -141,7 +141,7 @@ Log-domain is another form of nonlinear quantization that has been shown to main
 
 Binary ( 1 bit) and ternary ( 2 bits to represent -1 , 0 , and 1 ) have been used in research, in particular, to represent the weights in a forward propagation passes [ROR+16, HS14].
 
-## Die Cost
+#### Die Cost
 
 The die cost to build a multiplier, and the power cost to use the multiplier both exhibit quadratic growth with the number of mantissa bits and increase linearly with the number of exponent bits. Therefore, a $bf16$ multiplier is less expensive than a $fp16$ multiplier. However, area costs continue to decrease rapidly, and therefore this difference should not be a major factor in the DLhardware design decisions. Usability and software development costs are much more critical factors.
 
