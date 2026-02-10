@@ -53,7 +53,11 @@ Looking ahead for different hardware usages, the numerical formats that are or c
 
 DL libraries, such as TensorFlow, PyTorch, MXNet, OpenVINO, and TensorRT, support $int8$ , $fp16$ , $bf16$ , and $fp32$ . For other formats to gain adoption, hardware and framework support is needed.
 
-Table 6.1 shows the range, the minimum and maximum positive values for the floatingpoint numbers, and the maximum numerical error across various numerical formats. $fp8\text{-}ibm$ refers to an 8-bit floating-point format introduced by IBM and discussed below. u f 4; 8 g represents a f 4; 8 g -bit unsigned integer, s f 4; 8; 16; 32 g represents a f 4; 8; 16; 32 g -bit signed integer, and ( n S ; n E ; n M ) indicates the number of sign, exponent, and mantissa bits, respectively, of the floating-point formats. Thus, ( 1; 8; 23 ) indicates a format with a sign bit, 8 exponent bits, and 23 mantissa bits, which corresponds to $fp32$ . The exponent bits determine the range and the mantissa bits the precision. The maximum numerical error of a given floating-point representation is the floating-point number multiplied by
+Table 6.1 shows the range, the minimum and maximum positive values for the floatingpoint numbers, and the maximum numerical error across various numerical formats. $fp8\text{-}ibm$ refers to an 8-bit floating-point format introduced by IBM and discussed below. $u\{4, 8\}$ represents a $\{4, 8\}$-bit unsigned integer, $s\{4, 8, 16, 32\}$ represents a $\{4, 8, 16, 32\}$-bit signed integer, and $( nS , nE , nM )$ indicates the number of sign, exponent, and mantissa bits, respectively, of the floating-point formats. Thus, $( 1, 8, 23 )$ indicates a format with a sign bit, 8 exponent bits, and 23 mantissa bits, which corresponds to $fp32$ . The exponent bits determine the range and the mantissa bits the precision. The maximum numerical error of a given floating-point representation is the floating-point number multiplied by
+
+$$1/2^{(nM + 1)}$$
+
+or 0.5 for the integer representations.
 
 
 Table 6.1: A comparison of different numerical formats. The maximum numerical error of a given floating-point representation is the floating-point number multiplied by Maximun Error .
@@ -73,8 +77,6 @@ Table 6.1: A comparison of different numerical formats. The maximum numerical er
 | $u8$ | $[1, 2^{8} - 1]$ | $1$ | $255$ | $0.5$ |
 | $s4$ | $[1, 2^{3} - 1]$ | $1$ | $7$ | $0.5$ |
 | $u4$ | $[1, 2^{4} - 1]$ | $1$ | $15$ | $0.5$ |
-
-## or 0:5 for the integer representations.
 
 Training a model with 16 bits (specifically $bf16$ or $fp16$ ) usually requires the following:
 
